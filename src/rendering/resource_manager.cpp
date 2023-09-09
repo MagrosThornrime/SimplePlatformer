@@ -13,7 +13,7 @@ std::string ResourceManager::loadProgramCode(const std::string& path){
         shaderCode = shaderStream.str();
     }
     catch(std::ifstream::failure& e) {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+        logger->log("shader file not successfully read", LogLevel::error);
     }
     return shaderCode;
 }
@@ -22,7 +22,7 @@ void ResourceManager::loadShaderProgram(const std::string& vertexPath, const std
                                         const std::string& name) {
     std::string vertexCode = loadProgramCode(vertexPath);
     std::string fragmentCode = loadProgramCode(fragmentPath);
-    ShaderProgram shaderProgram = ShaderProgram(vertexCode, fragmentCode);
+    ShaderProgram shaderProgram = ShaderProgram(logger, vertexCode, fragmentCode);
     shaderPrograms[name] = shaderProgram;
 }
 
@@ -31,12 +31,12 @@ void ResourceManager::loadShaderProgram(const std::string &vertexPath, const std
     std::string vertexCode = loadProgramCode(vertexPath);
     std::string fragmentCode = loadProgramCode(fragmentPath);
     std::string geometryCode = loadProgramCode(geometryPath);
-    ShaderProgram shaderProgram = ShaderProgram(vertexCode, fragmentCode, geometryCode);
+    ShaderProgram shaderProgram = ShaderProgram(logger, vertexCode, fragmentCode, geometryCode);
     shaderPrograms[name] = shaderProgram;
 }
 
-ShaderProgram ResourceManager::getShaderProgram(const std::string &name) {
-    return shaderPrograms[name];
+ShaderProgram* ResourceManager::getShaderProgram(const std::string &name) {
+    return &(shaderPrograms[name]);
 }
 
 Image ResourceManager::loadImage(const std::string &path, ImageType imageType,
@@ -51,7 +51,8 @@ Image ResourceManager::loadImage(const std::string &path, ImageType imageType,
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 
     if(!data)
-        std::cout << "Failed to load image" << std::endl;
+        logger->log("failed to load image", LogLevel::error);
+
     return {(unsigned int) width, (unsigned int) height, imageType, data};
 }
 
@@ -62,8 +63,8 @@ void ResourceManager::loadTexture(const std::string& path, ImageType imageType, 
     textures[name] = Texture(image, textureParameters);
 }
 
-Texture ResourceManager::getTexture(const std::string &name) {
-    return textures[name];
+Texture* ResourceManager::getTexture(const std::string &name) {
+    return &(textures[name]);
 }
 
 void ResourceManager::clear() {
@@ -73,4 +74,8 @@ void ResourceManager::clear() {
     for(auto [name, texture] : textures){
         glDeleteTextures(1, &texture.ID);
     }
+}
+
+ResourceManager::ResourceManager(Logger *logger) {
+    this->logger = logger;
 }

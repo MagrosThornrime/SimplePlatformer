@@ -19,12 +19,12 @@ struct TextureParameters{
 };
 
 class Texture{
-    void generate(Image image, TextureParameters textureParameters);
+    void generate(const Image& image, TextureParameters textureParameters);
 
 public:
     unsigned int ID{};
 
-    Texture(Image image, TextureParameters textureParameters);
+    Texture(const Image& image, TextureParameters textureParameters);
     Texture() = default;
     void bind() const;
     void unbind() const;

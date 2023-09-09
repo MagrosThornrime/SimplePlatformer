@@ -4,21 +4,23 @@ project(SimplePlatformer)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(SimplePlatformer main.cpp
-        src/shader_program.cpp
-        src/shader_program.h
-        src/resource_manager.cpp
-        src/resource_manager.h
-        src/image.cpp
-        src/image.h
+        src/rendering/shader_program.cpp
+        src/rendering/shader_program.h
+        src/rendering/resource_manager.cpp
+        src/rendering/resource_manager.h
+        src/rendering/image.cpp
+        src/rendering/image.h
         src/gui.cpp
         src/gui.h
-        src/texture.cpp
-        src/texture.h
+        src/rendering/texture.cpp
+        src/rendering/texture.h
         src/game.cpp
         src/game.h
-        src/stb_definition.cpp
+        src/rendering/stb_definition.cpp
         src/logger.cpp
         src/logger.h
+        src/rendering/sprite_renderer.h
+        src/rendering/sprite_renderer.cpp
 )
 
 

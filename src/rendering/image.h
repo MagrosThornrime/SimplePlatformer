@@ -6,7 +6,7 @@
 
 #pragma once
 #include <GL/glew.h>
-#include "stb_image.h"
+#include "../lib/stb_image.h"
 
 enum ImageType{eJPG, ePNG};
 

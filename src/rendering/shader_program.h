@@ -14,14 +14,20 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "../logger.h"
 
 enum ShaderType {eVertex, eFragment, eGeometry};
+
+GLint chooseShader(ShaderType type);
+
+std::string shaderToString(ShaderType type);
 
 class ShaderProgram{
     unsigned int mVertex{}, mFragment{}, mGeometry{};
     std::string mVertexCode{}, mFragmentCode{}, mGeometryCode{};
     int mSuccess{};
     char mInfoLog[512]{};
+    Logger* logger;
 
     void compileShader(unsigned int& shader, ShaderType type, const std::string& code);
     void linkProgram();
@@ -30,8 +36,9 @@ class ShaderProgram{
 public:
     unsigned int ID{};
 
-    ShaderProgram(const std::string& vertexCode, const std::string& fragmentCode);
-    ShaderProgram(const std::string& shaderCode, const std::string& fragmentCode, const std::string& geometryCode);
+    ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode);
+    ShaderProgram(Logger* logger, const std::string& shaderCode, const std::string& fragmentCode,
+                  const std::string& geometryCode);
     ShaderProgram() = default;
     ~ShaderProgram();
 
@@ -48,6 +55,6 @@ public:
     void setVector4f (const std::string& name, float x, float y, float z, float w) const;
     void setVector4f (const std::string& name, const glm::vec4 &value) const;
 
-    void setMat4(const std::string& name, glm::mat4 value) const;
+    void setMatrix4(const std::string& name, glm::mat4 value) const;
 
 };

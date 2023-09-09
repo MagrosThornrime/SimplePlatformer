@@ -1,25 +1,47 @@
 #include "shader_program.h"
 
-void ShaderProgram::compileShader(unsigned int &shader, ShaderType type, const std::string& code) {
-    const char* charCode = code.c_str();
+GLint chooseShader(ShaderType type){
+    GLint shader;
     switch(type){
-        case ShaderType::eVertex:
-            shader = glCreateShader(GL_VERTEX_SHADER);
+        case eVertex:
+            shader = GL_VERTEX_SHADER;
             break;
-        case ShaderType::eFragment:
-            shader = glCreateShader(GL_FRAGMENT_SHADER);
+        case eFragment:
+            shader = GL_FRAGMENT_SHADER;
             break;
-        case ShaderType::eGeometry:
-            shader = glCreateShader(GL_GEOMETRY_SHADER);
+        case eGeometry:
+            shader = GL_GEOMETRY_SHADER;
             break;
     }
+    return shader;
+}
+
+std::string shaderToString(ShaderType type){
+    std::string shader;
+    switch(type){
+        case eVertex:
+            shader = "vertex";
+            break;
+        case eFragment:
+            shader = "fragment";
+            break;
+        case eGeometry:
+            shader = "geometry";
+            break;
+    }
+    return shader;
+}
+
+void ShaderProgram::compileShader(unsigned int &shader, ShaderType type, const std::string& code) {
+    const char* charCode = code.c_str();
+    shader = chooseShader(type);
     glShaderSource(shader, 1, &charCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &mSuccess);
     if(!mSuccess) {
         glGetShaderInfoLog(shader, 512, NULL, mInfoLog);
-        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << mInfoLog << std::endl;
-        std::cout << "TYPE=" << type << std::endl;
+        std::string message = shaderToString(type) + " shader compilation failed: " + std::string(mInfoLog);
+        logger->log(message, LogLevel::error);
     }
 }
 
@@ -30,7 +52,8 @@ void ShaderProgram::linkProgram() {
     glGetProgramiv(ID, GL_LINK_STATUS, &mSuccess);
     if(!mSuccess){
         glGetProgramInfoLog(ID, 512, NULL, mInfoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << mInfoLog << std::endl;
+        std::string message = "shader program linking failed: " + std::string(mInfoLog);
+        logger->log(message, LogLevel::error);
     }
 }
 
@@ -46,13 +69,15 @@ void ShaderProgram::addShaders(bool bGeometry){
         glDeleteShader(mGeometry);
 }
 
-ShaderProgram::ShaderProgram(const std::string& shaderCode, const std::string& fragmentCode) {
+ShaderProgram::ShaderProgram(Logger* logger, const std::string& shaderCode, const std::string& fragmentCode) {
+    this->logger = logger;
     ID = glCreateProgram();
     addShaders(false);
 }
 
-ShaderProgram::ShaderProgram(const std::string& shaderCode, const std::string& fragmentCode,
-                             const std::string& geometryCode) {
+ShaderProgram::ShaderProgram(Logger* logger, const std::string& shaderCode,
+                             const std::string& fragmentCode, const std::string& geometryCode) {
+    this->logger = logger;
     ID = glCreateProgram();
     addShaders(true);
 }
@@ -101,6 +126,6 @@ void ShaderProgram::setVector4f(const std::string& name, const glm::vec4& value)
     glUniform4f(glGetUniformLocation(ID, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
-void ShaderProgram::setMat4(const std::string& name, glm::mat4 value) const{
+void ShaderProgram::setMatrix4(const std::string& name, glm::mat4 value) const{
     glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }

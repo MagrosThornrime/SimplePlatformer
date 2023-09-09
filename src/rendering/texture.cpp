@@ -8,7 +8,7 @@ void Texture::unbind() const {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::generate(Image image, TextureParameters textureParameters) {
+void Texture::generate(const Image& image, TextureParameters textureParameters) {
     const GLint internalFormat = GL_RGB;
     bind();
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image.width,
@@ -22,7 +22,7 @@ void Texture::generate(Image image, TextureParameters textureParameters) {
 }
 
 
-Texture::Texture(Image image, TextureParameters textureParameters) {
+Texture::Texture(const Image& image, TextureParameters textureParameters) {
     glGenTextures(1, &ID);
     generate(image, textureParameters);
 }

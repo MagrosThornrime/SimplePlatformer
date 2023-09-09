@@ -7,7 +7,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 GUI::GUI(Logger* logger, unsigned int width, unsigned int height, const std::string &projectName){
     this->logger = logger;
     if (!glfwInit()){
-//        std::cout << "failed to initialize glfw" << std::endl;
         logger->log("failed to initialize glfw", LogLevel::error);
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, openglVersionMajor);
@@ -16,7 +15,6 @@ GUI::GUI(Logger* logger, unsigned int width, unsigned int height, const std::str
     window = glfwCreateWindow((int)width, (int)height, projectName.c_str(), nullptr, nullptr);
     if (!window) {
         logger->log("failed to create glfw window", LogLevel::error);
-//        std::cout << "failed to create glfw window" << std::endl;
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);

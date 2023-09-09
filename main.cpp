@@ -1,28 +1,38 @@
 #include <iostream>
 #include "src/game.h"
 #include "src/gui.h"
-#include "src/resource_manager.h"
+#include "src/rendering/resource_manager.h"
 #include "src/logger.h"
+#include "src/rendering/sprite_renderer.h"
 
 const unsigned int width = 800;
 const unsigned int height = 600;
 const std::string projectName = "Simple Platformer";
 
 int main() {
-    auto* resourceManager = new ResourceManager();
     auto* logger = new Logger("../logs.txt", true, LogLevel::info);
+    auto* resourceManager = new ResourceManager(logger);
     auto* game = new Game();
-//    Renderer renderer;
+    resourceManager->loadShaderProgram("../src/rendering/vertex.glsl", "../src/rendering/fragment.glsl", "shader");
+    ShaderProgram* shader = resourceManager->getShaderProgram("shader");
+    auto* renderer = new SpriteRenderer(shader, width, height);
     auto* gui = new GUI(logger, width, height, projectName);
+
+    TextureParameters parameters;
+    resourceManager->loadTexture("../res/container.jpg", ImageType::eJPG, false, parameters, "container");
+    auto* texture = resourceManager->getTexture("container");
 
     while(!gui->shouldClose()){
         game->update(gui->keys);
-//        renderer.render(game);
+        renderer->drawSprite(texture, glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
         gui->refresh();
     }
     game->end();
+    logger->log("game closed", LogLevel::info);
 
+    delete renderer;
     delete game;
     delete gui;
+    resourceManager->clear();
     delete resourceManager;
 }
