@@ -22,6 +22,7 @@ class ResourceManager{
     Logger* logger;
     std::map<std::string, Texture> textures;
     std::map<std::string, ShaderProgram> shaderPrograms;
+
     std::string loadProgramCode(const std::string& path);
     Image loadImage(const std::string &path, ImageType imageType, bool bFlipped);
 

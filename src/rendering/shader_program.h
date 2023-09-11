@@ -36,8 +36,9 @@ class ShaderProgram{
 public:
     unsigned int ID{};
 
+    void compileProgram();
     ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode);
-    ShaderProgram(Logger* logger, const std::string& shaderCode, const std::string& fragmentCode,
+    ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode,
                   const std::string& geometryCode);
     ShaderProgram() = default;
     ~ShaderProgram();

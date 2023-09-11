@@ -1,4 +1,5 @@
 #include "resource_manager.h"
+//#include "../lib/stb_image_write.h"
 
 std::string ResourceManager::loadProgramCode(const std::string& path){
     std::string shaderCode;
@@ -22,8 +23,9 @@ void ResourceManager::loadShaderProgram(const std::string& vertexPath, const std
                                         const std::string& name) {
     std::string vertexCode = loadProgramCode(vertexPath);
     std::string fragmentCode = loadProgramCode(fragmentPath);
-    ShaderProgram shaderProgram = ShaderProgram(logger, vertexCode, fragmentCode);
-    shaderPrograms[name] = shaderProgram;
+    shaderPrograms[name] = ShaderProgram(logger, vertexCode, fragmentCode);
+    shaderPrograms[name].compileProgram();
+
 }
 
 void ResourceManager::loadShaderProgram(const std::string &vertexPath, const std::string &fragmentPath,
@@ -31,8 +33,8 @@ void ResourceManager::loadShaderProgram(const std::string &vertexPath, const std
     std::string vertexCode = loadProgramCode(vertexPath);
     std::string fragmentCode = loadProgramCode(fragmentPath);
     std::string geometryCode = loadProgramCode(geometryPath);
-    ShaderProgram shaderProgram = ShaderProgram(logger, vertexCode, fragmentCode, geometryCode);
-    shaderPrograms[name] = shaderProgram;
+    shaderPrograms[name] = ShaderProgram(logger, vertexCode, fragmentCode, geometryCode);
+    shaderPrograms[name].compileProgram();
 }
 
 ShaderProgram* ResourceManager::getShaderProgram(const std::string &name) {
@@ -49,6 +51,7 @@ Image ResourceManager::loadImage(const std::string &path, ImageType imageType,
     }
 
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+//    stbi_write_jpg("test.jpg", width, height, nrChannels, data, width * sizeof(int));
 
     if(!data)
         logger->log("failed to load image", LogLevel::error);
@@ -60,7 +63,8 @@ Image ResourceManager::loadImage(const std::string &path, ImageType imageType,
 void ResourceManager::loadTexture(const std::string& path, ImageType imageType, bool bFlipped,
                                   TextureParameters textureParameters, const std::string& name) {
     Image image = loadImage(path, imageType, bFlipped);
-    textures[name] = Texture(image, textureParameters);
+    textures[name] = Texture(logger);
+    textures[name].generate(image, textureParameters);
 }
 
 Texture* ResourceManager::getTexture(const std::string &name) {

@@ -10,22 +10,23 @@
 #pragma once
 #include <GL/glew.h>
 #include "image.h"
+#include "../logger.h"
 
 struct TextureParameters{
     GLint wrapS = GL_REPEAT;
     GLint wrapT = GL_REPEAT;
-    GLint filterMin = GL_NEAREST;
+    GLint filterMin = GL_NEAREST_MIPMAP_NEAREST;
     GLint filterMag = GL_NEAREST;
 };
 
 class Texture{
-    void generate(const Image& image, TextureParameters textureParameters);
-
+    Logger* logger;
 public:
     unsigned int ID{};
 
-    Texture(const Image& image, TextureParameters textureParameters);
+    Texture(Logger* logger);
     Texture() = default;
+    void generate(const Image& image, TextureParameters textureParameters);
     void bind() const;
     void unbind() const;
 };

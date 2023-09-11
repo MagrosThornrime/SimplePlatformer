@@ -12,6 +12,7 @@ void SpriteRenderer::initRenderData() {
             1.0f, 0.0f, 1.0f, 0.0f
     };
 
+
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -20,16 +21,15 @@ void SpriteRenderer::initRenderData() {
 
     glBindVertexArray(VAO);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(2 * sizeof(float )));
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
 glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) {
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 1.0f));
+    model = glm::translate(model, glm::vec3(position, 0.0f));
+    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
     model = glm::scale(model, glm::vec3(size, 1.0f));
@@ -50,6 +50,7 @@ void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 
     shader->setMatrix4("projection", getProjectionMatrix());
     shader->setMatrix4("view", getViewMatrix());
     shader->setVector3f("spriteColor", color);
+    shader->setInt("image", 0);
     glActiveTexture(GL_TEXTURE0);
     texture->bind();
     glBindVertexArray(VAO);
@@ -58,12 +59,20 @@ void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 
     texture->unbind();
 }
 
-SpriteRenderer::SpriteRenderer(ShaderProgram *shader, unsigned int width, unsigned int height) {
+SpriteRenderer::SpriteRenderer(Logger* logger, ShaderProgram *shader, unsigned int width, unsigned int height) {
+    this->logger = logger;
     this->shader = shader;
     this->width = width;
     this->height = height;
+    initRenderData();
 }
 
 SpriteRenderer::~SpriteRenderer(){
     glDeleteVertexArrays(1, &VAO);
+}
+
+void SpriteRenderer::clear() {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 }

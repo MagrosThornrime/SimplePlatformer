@@ -11,18 +11,23 @@ void Texture::unbind() const {
 void Texture::generate(const Image& image, TextureParameters textureParameters) {
     const GLint internalFormat = GL_RGB;
     bind();
-    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image.width,
-                 image.height,0, image.getFormat(), GL_UNSIGNED_BYTE, image.data);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    if(image.data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image.width,
+                     image.height, 0, image.getFormat(), GL_UNSIGNED_BYTE, image.data);
+    }
+    else{
+        logger->log("failed to load texture", error);
+    }
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, textureParameters.wrapS);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, textureParameters.wrapT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, textureParameters.filterMin);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, textureParameters.filterMag);
+    glGenerateMipmap(GL_TEXTURE_2D);
     unbind();
 }
 
 
-Texture::Texture(const Image& image, TextureParameters textureParameters) {
+Texture::Texture(Logger* logger) {
+    this->logger = logger;
     glGenTextures(1, &ID);
-    generate(image, textureParameters);
 }

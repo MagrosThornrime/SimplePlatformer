@@ -18,12 +18,19 @@ GUI::GUI(Logger* logger, unsigned int width, unsigned int height, const std::str
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);
+    if(glewInit() != GLEW_OK){
+        logger->log("failed to initialize glew", LogLevel::error);
+    }
     glfwSetWindowUserPointer(window, this);
 //        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetKeyCallback(window, key_callback);
+
+
+
     glViewport(0, 0, int(width), int(height));
-    glEnable(GL_DEPTH_TEST);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+//    glEnable(GL_DEPTH_TEST);
     logger->log("window started", LogLevel::info);
 }
 

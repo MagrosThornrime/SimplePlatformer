@@ -34,7 +34,7 @@ std::string shaderToString(ShaderType type){
 
 void ShaderProgram::compileShader(unsigned int &shader, ShaderType type, const std::string& code) {
     const char* charCode = code.c_str();
-    shader = chooseShader(type);
+    shader = glCreateShader(chooseShader(type));
     glShaderSource(shader, 1, &charCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &mSuccess);
@@ -69,17 +69,26 @@ void ShaderProgram::addShaders(bool bGeometry){
         glDeleteShader(mGeometry);
 }
 
-ShaderProgram::ShaderProgram(Logger* logger, const std::string& shaderCode, const std::string& fragmentCode) {
-    this->logger = logger;
+void ShaderProgram::compileProgram() {
     ID = glCreateProgram();
-    addShaders(false);
+    if(mGeometryCode.empty())
+        addShaders(false);
+    else
+        addShaders(true);
 }
 
-ShaderProgram::ShaderProgram(Logger* logger, const std::string& shaderCode,
+ShaderProgram::ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode) {
+    this->logger = logger;
+    mVertexCode = vertexCode;
+    mFragmentCode = fragmentCode;
+}
+
+ShaderProgram::ShaderProgram(Logger* logger, const std::string& vertexCode,
                              const std::string& fragmentCode, const std::string& geometryCode) {
     this->logger = logger;
-    ID = glCreateProgram();
-    addShaders(true);
+    mVertexCode = vertexCode;
+    mFragmentCode = fragmentCode;
+    mGeometryCode = geometryCode;
 }
 
 ShaderProgram::~ShaderProgram(){

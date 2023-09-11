@@ -30,7 +30,7 @@ void Logger::logToFile(const std::string &text) {
 }
 
 void Logger::log(const std::string &text, LogLevel level) {
-    if(level == warning and this->level == info)
+    if(level == warning and this->level == error)
         return;
     if(level == error and this->level != error)
         return;
