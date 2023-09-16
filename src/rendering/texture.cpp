@@ -27,7 +27,6 @@ void Texture::generate(const Image& image, TextureParameters textureParameters) 
 }
 
 
-Texture::Texture(Logger* logger) {
-    this->logger = logger;
+Texture::Texture(Logger* logger) : logger(logger) {
     glGenTextures(1, &ID);
 }

@@ -1,0 +1,35 @@
+[
+  {
+    "sprite": "container",
+    "positionX": 0.0,
+    "positionY": 0.0,
+    "sizeX": 100.0,
+    "sizeY": 20.0,
+    "rotation": 0.0,
+    "colorR": 1.0,
+    "colorG": 1.0,
+    "colorB": 1.0
+  },
+  {
+    "sprite": "container",
+    "positionX": 300.0,
+    "positionY": 50.0,
+    "sizeX": 100.0,
+    "sizeY": 100.0,
+    "rotation": 0.0,
+    "colorR": 1.0,
+    "colorG": 1.0,
+    "colorB": 1.0
+  },
+  {
+    "sprite": "container",
+    "positionX": 60.0,
+    "positionY": 120.0,
+    "sizeX": 100.0,
+    "sizeY": 100.0,
+    "rotation": 0.0,
+    "colorR": 1.0,
+    "colorG": 1.0,
+    "colorB": 1.0
+  }
+]

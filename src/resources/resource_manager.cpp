@@ -1,22 +1,7 @@
 #include "resource_manager.h"
-//#include "../lib/stb_image_write.h"
 
 std::string ResourceManager::loadProgramCode(const std::string& path){
-    std::string shaderCode;
-    std::ifstream shaderFile;
-    std::stringstream shaderStream;
-
-    shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    try {
-        shaderFile.open(path.c_str());
-        shaderStream << shaderFile.rdbuf();
-        shaderFile.close();
-        shaderCode = shaderStream.str();
-    }
-    catch(std::ifstream::failure& e) {
-        logger->log("shader file not successfully read", LogLevel::error);
-    }
-    return shaderCode;
+    return fileIO->loadTextFile(path);
 }
 
 void ResourceManager::loadShaderProgram(const std::string& vertexPath, const std::string& fragmentPath,
@@ -43,20 +28,11 @@ ShaderProgram* ResourceManager::getShaderProgram(const std::string &name) {
 
 Image ResourceManager::loadImage(const std::string &path, ImageType imageType,
                                  bool bFlipped) {
-    int width, height, nrChannels;
+    int width, height;
     unsigned char* data;
+    fileIO->loadImage(path, bFlipped, &width, &height, data);
+    return {(unsigned int)width, (unsigned int)height, imageType, data};
 
-    if(bFlipped){
-        stbi_set_flip_vertically_on_load(true);
-    }
-
-    data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-//    stbi_write_jpg("test.jpg", width, height, nrChannels, data, width * sizeof(int));
-
-    if(!data)
-        logger->log("failed to load image", LogLevel::error);
-
-    return {(unsigned int) width, (unsigned int) height, imageType, data};
 }
 
 
@@ -71,6 +47,10 @@ Texture* ResourceManager::getTexture(const std::string &name) {
     return &(textures[name]);
 }
 
+void ResourceManager::loadMapData(const std::string &path) {
+    mapData = fileIO->loadJsonFile(path);
+}
+
 void ResourceManager::clear() {
     for(auto [name, program] : shaderPrograms){
         glDeleteProgram(program.ID);
@@ -78,8 +58,4 @@ void ResourceManager::clear() {
     for(auto [name, texture] : textures){
         glDeleteTextures(1, &texture.ID);
     }
-}
-
-ResourceManager::ResourceManager(Logger *logger) {
-    this->logger = logger;
 }

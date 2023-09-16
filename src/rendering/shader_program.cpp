@@ -77,20 +77,6 @@ void ShaderProgram::compileProgram() {
         addShaders(true);
 }
 
-ShaderProgram::ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode) {
-    this->logger = logger;
-    mVertexCode = vertexCode;
-    mFragmentCode = fragmentCode;
-}
-
-ShaderProgram::ShaderProgram(Logger* logger, const std::string& vertexCode,
-                             const std::string& fragmentCode, const std::string& geometryCode) {
-    this->logger = logger;
-    mVertexCode = vertexCode;
-    mFragmentCode = fragmentCode;
-    mGeometryCode = geometryCode;
-}
-
 ShaderProgram::~ShaderProgram(){
     glDeleteProgram(ID);
 }

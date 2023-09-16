@@ -9,7 +9,7 @@
 
 #pragma once
 #include <GL/glew.h>
-#include "image.h"
+#include "../resources/image.h"
 #include "../logger.h"
 
 struct TextureParameters{
@@ -24,7 +24,7 @@ class Texture{
 public:
     unsigned int ID{};
 
-    Texture(Logger* logger);
+    explicit Texture(Logger* logger);
     Texture() = default;
     void generate(const Image& image, TextureParameters textureParameters);
     void bind() const;

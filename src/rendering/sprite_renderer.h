@@ -1,20 +1,25 @@
 #pragma once
 #include "texture.h"
 #include "shader_program.h"
+#include "../map/move_observer.h"
 
-class SpriteRenderer{
+class SpriteRenderer : public MoveObserver{
     Logger* logger;
     unsigned int VAO{}, width, height;
     ShaderProgram* shader;
 
     void initRenderData();
 
-    glm::mat4 getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate);
-    glm::mat4 getProjectionMatrix();
-    glm::mat4 getViewMatrix();
+    [[nodiscard]] glm::mat4 getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) const;
+    [[nodiscard]] glm::mat4 getProjectionMatrix() const;
+    [[nodiscard]] glm::mat4 getViewMatrix() const;
 
 public:
+    glm::vec2 cameraPosition;
+    float velocity;
+
     SpriteRenderer(Logger* logger, ShaderProgram* shader, unsigned int width, unsigned int height);
+
     ~SpriteRenderer();
 
     void drawSprite(Texture* texture,
@@ -23,5 +28,9 @@ public:
                     float rotate = 0.0f,
                     glm::vec3 color = glm::vec3(1.0f));
 
-    void clear();
+    static void clear();
+
+    void move(float x, float y) override;
+
+    void setCameraPosition(float x, float y);
 };

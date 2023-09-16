@@ -8,18 +8,18 @@
 
 #pragma once
 
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <map>
 
-#include "texture.h"
-#include "shader_program.h"
+#include "../rendering/texture.h"
+#include "../rendering/shader_program.h"
 #include "../logger.h"
+#include "../fileio.h"
 
 
 class ResourceManager{
     Logger* logger;
+    FileIO* fileIO;
     std::map<std::string, Texture> textures;
     std::map<std::string, ShaderProgram> shaderPrograms;
 
@@ -27,7 +27,9 @@ class ResourceManager{
     Image loadImage(const std::string &path, ImageType imageType, bool bFlipped);
 
 public:
-    ResourceManager(Logger* logger);
+    Json::Value mapData;
+
+    ResourceManager(Logger* logger, FileIO* fileIO) : logger(logger), fileIO(fileIO) {}
 
     void loadShaderProgram(const std::string& vertexPath, const std::string& fragmentPath,
                            const std::string& name);
@@ -38,6 +40,9 @@ public:
     void loadTexture(const std::string& path, ImageType imageType, bool bFlipped,
                      TextureParameters textureParameters, const std::string& name);
     Texture* getTexture(const std::string& name);
+
+    void loadMapData(const std::string& path);
+
     void clear();
 
 };

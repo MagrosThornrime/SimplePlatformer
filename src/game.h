@@ -9,21 +9,22 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "map/game_map.h"
 
 enum GameState{
     GAME_ACTIVE,
     GAME_CLOSE
 };
 
-class Map{};
-
 class Game{
+    void notifyMoveObservers(float x, float y);
 public:
     GameState state;
-    Game();
-    ~Game() = default;
-    Map map;
+    GameMap map;
+    std::vector<MoveObserver*> moveObservers;
+    explicit Game(ResourceManager* resourceManager, glm::vec2 playerPosition, float velocity, glm::vec2 playerSize);
     void update(const bool keys[1024]);
     void end();
 
+    void registerMoveObserver(MoveObserver *observer);
 };

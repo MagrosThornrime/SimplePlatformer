@@ -1,12 +1,5 @@
 #include "image.h"
 
-Image::Image(unsigned int width, unsigned int height, ImageType imageType, unsigned char* data) {
-    this->width = width;
-    this->height = height;
-    this->imageType = imageType;
-    this->data = data;
-}
-
 Image::~Image(){
     stbi_image_free(data);
 }

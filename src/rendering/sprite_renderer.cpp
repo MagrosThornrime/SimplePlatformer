@@ -26,7 +26,7 @@ void SpriteRenderer::initRenderData() {
     glBindVertexArray(0);
 }
 
-glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) {
+glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) const{
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));
     model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
@@ -36,12 +36,15 @@ glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size, flo
     return model;
 }
 
-glm::mat4 SpriteRenderer::getProjectionMatrix(){
+glm::mat4 SpriteRenderer::getProjectionMatrix() const{
     return glm::ortho(0.0f, (float) width, (float) height, 0.0f, -1.0f, 1.0f);
 }
 
-glm::mat4 SpriteRenderer::getViewMatrix(){
-    return glm::mat4(1.0f);
+glm::mat4 SpriteRenderer::getViewMatrix() const{
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3((float) width / 2.0f, (float) height / 2.0f, 0.0f));
+    view = glm::translate(view, glm::vec3(-cameraPosition, 0.0f));
+    return view;
 }
 
 void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
@@ -59,11 +62,8 @@ void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 
     texture->unbind();
 }
 
-SpriteRenderer::SpriteRenderer(Logger* logger, ShaderProgram *shader, unsigned int width, unsigned int height) {
-    this->logger = logger;
-    this->shader = shader;
-    this->width = width;
-    this->height = height;
+SpriteRenderer::SpriteRenderer(Logger* logger, ShaderProgram *shader, unsigned int width, unsigned int height)
+: logger(logger), shader(shader), width(width), height(height), cameraPosition(), velocity(){
     initRenderData();
 }
 
@@ -75,4 +75,12 @@ void SpriteRenderer::clear() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void SpriteRenderer::setCameraPosition(float x, float y) {
+    cameraPosition = glm::vec2(x, y);
+}
+
+void SpriteRenderer::move(float x, float y) {
+    setCameraPosition(cameraPosition.x + velocity * x, cameraPosition.y + velocity * y);
 }

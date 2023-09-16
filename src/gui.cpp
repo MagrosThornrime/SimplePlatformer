@@ -4,8 +4,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-GUI::GUI(Logger* logger, unsigned int width, unsigned int height, const std::string &projectName){
-    this->logger = logger;
+GUI::GUI(Logger* logger, unsigned int width, unsigned int height, const std::string &projectName)
+    : logger(logger) {
     if (!glfwInit()){
         logger->log("failed to initialize glfw", LogLevel::error);
     }

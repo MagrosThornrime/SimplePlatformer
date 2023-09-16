@@ -15,9 +15,8 @@ struct Image{
     ImageType imageType{};
     unsigned char* data{};
 
-    Image(unsigned int width, unsigned int height, ImageType imageType, unsigned char* data);
-
-    Image() = default;
+    Image(unsigned int width, unsigned int height, ImageType imageType, unsigned char* data)
+    : width(width), height(height), imageType(imageType), data(data) {}
 
     ~Image();
 

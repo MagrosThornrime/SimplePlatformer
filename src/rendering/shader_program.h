@@ -14,6 +14,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <utility>
+
 #include "../logger.h"
 
 enum ShaderType {eVertex, eFragment, eGeometry};
@@ -37,9 +39,15 @@ public:
     unsigned int ID{};
 
     void compileProgram();
-    ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode);
-    ShaderProgram(Logger* logger, const std::string& vertexCode, const std::string& fragmentCode,
-                  const std::string& geometryCode);
+
+    ShaderProgram(Logger* logger, std::string  vertexCode, std::string  fragmentCode)
+    : logger(logger), mVertexCode(std::move(vertexCode)), mFragmentCode(std::move(fragmentCode)) {}
+
+    ShaderProgram(Logger* logger, std::string  vertexCode, std::string  fragmentCode,
+                  std::string  geometryCode)
+    : logger(logger), mVertexCode(std::move(vertexCode)), mFragmentCode(std::move(fragmentCode)),
+    mGeometryCode(std::move(geometryCode)) {}
+
     ShaderProgram() = default;
     ~ShaderProgram();
 
@@ -57,5 +65,4 @@ public:
     void setVector4f (const std::string& name, const glm::vec4 &value) const;
 
     void setMatrix4(const std::string& name, glm::mat4 value) const;
-
 };

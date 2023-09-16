@@ -41,13 +41,3 @@ void Logger::log(const std::string &text, LogLevel level) {
     if(!path.empty())
         logToFile(toLog);
 }
-
-Logger::Logger(LogLevel level) {
-    this->level = level;
-}
-
-Logger::Logger(const std::string &path, bool consoleUsed, LogLevel level) {
-    this->path = path;
-    this->consoleUsed = consoleUsed;
-    this->level = level;
-}
