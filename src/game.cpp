@@ -3,7 +3,7 @@
 Game::Game(ResourceManager* resourceManager, glm::vec2 playerPosition, float velocity, glm::vec2 playerSize)
  : state(GAME_ACTIVE), map(GameMap(800, 600)) {
     map.load(resourceManager);
-    map.loadPlayer(resourceManager, "face", playerPosition, velocity, playerSize);
+    map.loadPlayer(resourceManager, "rogue", playerPosition, velocity, playerSize);
     map.registerObservers(moveObservers);
 }
 

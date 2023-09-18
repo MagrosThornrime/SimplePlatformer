@@ -20,7 +20,7 @@ struct TextureParameters{
 };
 
 class Texture{
-    Logger* logger;
+    Logger* logger{};
 public:
     unsigned int ID{};
 

@@ -1,6 +1,5 @@
 #include "player.h"
 
-//const glm::vec2 playerSize = glm::vec2(100.0f);
 const glm::vec3 playerColor = glm::vec3(1.0f);
 
 Player::Player(glm::vec2 position, glm::vec2 size, Texture* sprite)
