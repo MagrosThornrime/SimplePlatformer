@@ -9,10 +9,10 @@
 
 class GameMap{
     float width, height;
-    std::vector<Tile> tiles;
-    Player player;
 
 public:
+    std::vector<Tile> tiles;
+
     GameMap(float width, float height) : width(width), height(height) {}
 
     void draw(SpriteRenderer* renderer);
@@ -20,10 +20,5 @@ public:
     void loadTile(ResourceManager* resourceManager, const std::string& textureName, glm::vec2 position, glm::vec2 size,
                   float rotation=0.0f, glm::vec3 color = glm::vec3(1.0f));
 
-    void loadPlayer(ResourceManager* resourceManager, const std::string& textureName,
-                    glm::vec2 position, float velocity, glm::vec2 playerSize);
-
     void load(ResourceManager* resourceManager);
-
-    void registerObservers(std::vector<MoveObserver*>& observers);
 };

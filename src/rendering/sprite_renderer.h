@@ -16,7 +16,6 @@ class SpriteRenderer : public MoveObserver{
 
 public:
     glm::vec2 cameraPosition;
-    float velocity;
 
     SpriteRenderer(Logger* logger, ShaderProgram* shader, unsigned int width, unsigned int height);
 
@@ -30,7 +29,7 @@ public:
 
     static void clear();
 
-    void move(float x, float y) override;
+    void moved(glm::vec2 newPosition) override;
 
     void setCameraPosition(float x, float y);
 };

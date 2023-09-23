@@ -63,7 +63,7 @@ void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 
 }
 
 SpriteRenderer::SpriteRenderer(Logger* logger, ShaderProgram *shader, unsigned int width, unsigned int height)
-: logger(logger), shader(shader), width(width), height(height), cameraPosition(), velocity(){
+: logger(logger), shader(shader), width(width), height(height), cameraPosition(){
     initRenderData();
 }
 
@@ -81,6 +81,6 @@ void SpriteRenderer::setCameraPosition(float x, float y) {
     cameraPosition = glm::vec2(x, y);
 }
 
-void SpriteRenderer::move(float x, float y) {
-    setCameraPosition(cameraPosition.x + velocity * x, cameraPosition.y + velocity * y);
+void SpriteRenderer::moved(glm::vec2 newPosition) {
+    setCameraPosition(newPosition.x, newPosition.y);
 }

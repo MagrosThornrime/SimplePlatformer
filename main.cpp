@@ -18,9 +18,8 @@ const std::string rogueFile = "../res/rogue.png";
 const std::string rogueName = "rogue";
 const std::string bricksFile = "../res/bricks.png";
 const std::string bricksName = "bricks";
-const glm::vec2 initialPosition = glm::vec2(150.0f, 600.0f);
-const float velocity = 3.0f;
-const glm::vec2 playerSize = glm::vec2(50.0f);
+const glm::vec2 initialPosition = glm::vec2(150.0f, 550.0f);
+const glm::vec2 playerSize = glm::vec2(35.0f);
 
 
 int main() {
@@ -38,17 +37,17 @@ int main() {
     resourceManager.loadTexture(bricksFile, ImageType::ePNG, false, parameters, bricksName);
 
 
-    Game game(&resourceManager, initialPosition, 3.0f, playerSize);
+    Game game(&resourceManager, initialPosition, playerSize);
     SpriteRenderer renderer = SpriteRenderer(&logger, shader, width, height);
     renderer.setCameraPosition(initialPosition.x + playerSize.x / 2.0f, initialPosition.y + playerSize.y / 2.0f);
-    renderer.velocity = velocity;
     game.registerMoveObserver(&renderer);
 
 
     while(!gui->shouldClose()){
-        game.update(gui->keys);
+        game.update(gui->keys, gui->getDeltaTime());
         SpriteRenderer::clear();
         game.map.draw(&renderer);
+        game.player.draw(&renderer);
         gui->refresh();
 
     }

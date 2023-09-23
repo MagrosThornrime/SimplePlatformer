@@ -4,7 +4,6 @@ void GameMap::draw(SpriteRenderer *renderer) {
     for(auto tile: tiles){
         tile.draw(renderer);
     }
-    player.draw(renderer);
 }
 
 void GameMap::loadTile(ResourceManager* resourceManager, const std::string& textureName, glm::vec2 position,
@@ -12,13 +11,6 @@ void GameMap::loadTile(ResourceManager* resourceManager, const std::string& text
     Texture* texture = resourceManager->getTexture(textureName);
     auto tile = Tile(position, size, texture, rotation, color);
     tiles.push_back(tile);
-}
-
-void GameMap::loadPlayer(ResourceManager* resourceManager, const std::string& textureName,
-                         glm::vec2 position, float velocity, glm::vec2 playerSize){
-    Texture* texture = resourceManager->getTexture(textureName);
-    player = Player(position, playerSize, texture);
-    player.velocity = velocity;
 }
 
 
@@ -47,8 +39,4 @@ void GameMap::load(ResourceManager* resourceManager){
         loadTile(resourceManager, sprite, position, size, rotation, color);
     }
 
-}
-
-void GameMap::registerObservers(std::vector<MoveObserver*>& observers) {
-    observers.push_back(&player);
 }

@@ -11,20 +11,23 @@
 #include <GLFW/glfw3.h>
 #include "map/game_map.h"
 
+bool checkCollisions(GameMap& map, Player& player);
+
 enum GameState{
     GAME_ACTIVE,
     GAME_CLOSE
 };
 
 class Game{
-    void notifyMoveObservers(float x, float y);
+void loadPlayer(ResourceManager* resourceManager, const std::string& textureName,
+                glm::vec2 position, glm::vec2 playerSize);
+
 public:
     GameState state;
     GameMap map;
-    std::vector<MoveObserver*> moveObservers;
-    explicit Game(ResourceManager* resourceManager, glm::vec2 playerPosition, float velocity, glm::vec2 playerSize);
-    void update(const bool keys[1024]);
+    Player player;
+    Game(ResourceManager* resourceManager, glm::vec2 playerPosition, glm::vec2 playerSize);
+    void update(const bool keys[1024], float deltaTime);
     void end();
-
-    void registerMoveObserver(MoveObserver *observer);
+    void registerMoveObserver(MoveObserver* observer);
 };

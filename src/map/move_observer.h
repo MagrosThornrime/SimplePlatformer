@@ -2,5 +2,5 @@
 
 class MoveObserver{
 public:
-    virtual void move(float x, float y) = 0;
+    virtual void moved(glm::vec2 newPosition) = 0;
 };

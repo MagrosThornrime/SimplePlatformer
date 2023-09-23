@@ -4,6 +4,8 @@
 #include "../rendering/texture.h"
 #include "../rendering/sprite_renderer.h"
 
+const float collisionDelta = 0.0001;
+
 class GameObject{
 protected:
     glm::vec2 position, size;
@@ -19,4 +21,7 @@ public:
     GameObject() = default;
 
     virtual void draw(SpriteRenderer* renderer) = 0;
+
+    static bool checkCollision(const GameObject& object, const GameObject& other);
+
 };
