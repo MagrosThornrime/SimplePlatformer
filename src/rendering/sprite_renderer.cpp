@@ -26,9 +26,14 @@ void SpriteRenderer::initRenderData() {
     glBindVertexArray(0);
 }
 
-glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) const{
+glm::mat4 SpriteRenderer::getModelMatrix(glm::vec2 position, glm::vec2 size,
+                                         float rotate, bool isMirroredX) const{
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));
+    if(isMirroredX){
+        model = glm::translate(model, glm::vec3(size.x, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
+    }
     model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
@@ -47,9 +52,10 @@ glm::mat4 SpriteRenderer::getViewMatrix() const{
     return view;
 }
 
-void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
+void SpriteRenderer::drawSprite(Texture* texture, glm::vec2 position, glm::vec2 size, float rotate,
+                                glm::vec3 color, bool isMirroredX) {
     shader->use();
-    shader->setMatrix4("model", getModelMatrix(position, size, rotate));
+    shader->setMatrix4("model", getModelMatrix(position, size, rotate, isMirroredX));
     shader->setMatrix4("projection", getProjectionMatrix());
     shader->setMatrix4("view", getViewMatrix());
     shader->setVector3f("spriteColor", color);

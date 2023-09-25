@@ -22,6 +22,6 @@ public:
 
     virtual void draw(SpriteRenderer* renderer) = 0;
 
-    static bool checkCollision(const GameObject& object, const GameObject& other);
+    static bool checkCollision(const GameObject* object, const GameObject* other);
 
 };

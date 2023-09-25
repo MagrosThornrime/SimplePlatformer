@@ -11,5 +11,5 @@ sudo ln -s /usr/include/jsoncpp/json/ /usr/include/json
 ```
 
 ## Credits:
-- Main character's sprite - https://twitter.com/calciumtrice
+- Main character's sprite - https://opengameart.org/content/platform-shmup-hero-sir-blastalot
 - Some parts of the code (especially when it comes to opengl) - https://learnopengl.com/

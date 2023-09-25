@@ -10,7 +10,8 @@ class SpriteRenderer : public MoveObserver{
 
     void initRenderData();
 
-    [[nodiscard]] glm::mat4 getModelMatrix(glm::vec2 position, glm::vec2 size, float rotate) const;
+    [[nodiscard]] glm::mat4 getModelMatrix(glm::vec2 position, glm::vec2 size,
+                                           float rotate, bool isMirroredX) const;
     [[nodiscard]] glm::mat4 getProjectionMatrix() const;
     [[nodiscard]] glm::mat4 getViewMatrix() const;
 
@@ -25,7 +26,8 @@ public:
                     glm::vec2 position,
                     glm::vec2 size = glm::vec2(10.0f, 10.0f),
                     float rotate = 0.0f,
-                    glm::vec3 color = glm::vec3(1.0f));
+                    glm::vec3 color = glm::vec3(1.0f),
+                    bool isMirroredX = false);
 
     static void clear();
 

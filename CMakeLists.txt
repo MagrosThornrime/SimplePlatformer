@@ -28,6 +28,9 @@ add_executable(SimplePlatformer main.cpp
         src/map/player.h
         src/map/player.cpp
         src/map/game_object.cpp
+        src/map/characters.h
+        src/map/animation_engine.h
+        src/map/animation_engine.cpp
 )
 
 

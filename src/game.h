@@ -11,7 +11,7 @@
 #include <GLFW/glfw3.h>
 #include "map/game_map.h"
 
-bool checkCollisions(GameMap& map, Player& player);
+bool checkCollisions(GameMap* map, Player* player);
 
 enum GameState{
     GAME_ACTIVE,
@@ -25,8 +25,9 @@ void loadPlayer(ResourceManager* resourceManager, const std::string& textureName
 public:
     GameState state;
     GameMap map;
-    Player player;
+    Player* player;
     Game(ResourceManager* resourceManager, glm::vec2 playerPosition, glm::vec2 playerSize);
+    ~Game();
     void update(const bool keys[1024], float deltaTime);
     void end();
     void registerMoveObserver(MoveObserver* observer);
