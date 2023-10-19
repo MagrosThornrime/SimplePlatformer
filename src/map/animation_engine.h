@@ -21,7 +21,7 @@ class AnimationEngine{
     std::map<AnimationState, std::string> spriteNames;
     AnimationState lastState;
     int runCounter = 0;
-    int maxTicks = 8;
+    int maxTicks = 7;
 
     AnimationState nextRunState();
 

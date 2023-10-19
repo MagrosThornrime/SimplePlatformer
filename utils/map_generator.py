@@ -16,7 +16,6 @@ if __name__ == "__main__":
                     "positionY": true_y,
                     "sizeX": 50.0,
                     "sizeY": 50.0,
-                    "rotation": 0.0,
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,

@@ -32,5 +32,4 @@ public:
     void reactToVerticalCollision();
     void accelerate(float deltaTime);
     void moveVertically();
-
 };

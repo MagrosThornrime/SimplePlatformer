@@ -3,14 +3,14 @@
 const glm::vec3 playerColor = glm::vec3(1.0f);
 
 Player::Player(glm::vec2 position, glm::vec2 size, Texture* sprite, AnimationEngine* engine)
- : GameObject(position, size, sprite, 0.0f, playerColor), engine(engine) {
+ : GameObject(position, size, sprite, playerColor), engine(engine) {
     lastPosition = position;
 }
 
 void Player::draw(SpriteRenderer *renderer) {
     sprite = engine->getSprite(state);
     bool isMirroredX = direction == left;
-    renderer->drawSprite(sprite, position, size, rotation, color, isMirroredX);
+    renderer->drawSprite(sprite, position, size, color, isMirroredX);
 }
 
 void Player::move(glm::vec2 delta) {

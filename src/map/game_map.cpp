@@ -7,9 +7,9 @@ void GameMap::draw(SpriteRenderer *renderer) {
 }
 
 void GameMap::loadTile(ResourceManager* resourceManager, const std::string& textureName, glm::vec2 position,
-                       glm::vec2 size, float rotation, glm::vec3 color){
+                       glm::vec2 size, glm::vec3 color){
     Texture* texture = resourceManager->getTexture(textureName);
-    auto tile = Tile(position, size, texture, rotation, color);
+    auto tile = Tile(position, size, texture, color);
     tiles.push_back(tile);
 }
 
@@ -28,7 +28,6 @@ void GameMap::load(ResourceManager* resourceManager){
 
 
         std::string sprite = object["sprite"].asString();
-        float rotation = object["rotation"].asFloat();
 
         float colorR = object["colorR"].asFloat();
         float colorG = object["colorG"].asFloat();
@@ -36,7 +35,7 @@ void GameMap::load(ResourceManager* resourceManager){
         glm::vec3 color(colorR, colorG, colorB);
 
 
-        loadTile(resourceManager, sprite, position, size, rotation, color);
+        loadTile(resourceManager, sprite, position, size, color);
     }
 
 }
