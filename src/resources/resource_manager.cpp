@@ -10,7 +10,6 @@ void ResourceManager::loadShaderProgram(const std::string& vertexPath, const std
     std::string fragmentCode = loadProgramCode(fragmentPath);
     shaderPrograms[name] = ShaderProgram(logger, vertexCode, fragmentCode);
     shaderPrograms[name].compileProgram();
-
 }
 
 void ResourceManager::loadShaderProgram(const std::string &vertexPath, const std::string &fragmentPath,
@@ -49,6 +48,10 @@ Texture* ResourceManager::getTexture(const std::string &name) {
 
 void ResourceManager::loadMapData(const std::string &path) {
     mapData = fileIO->loadJsonFile(path);
+}
+
+void ResourceManager::loadLightData(const std::string &path) {
+    lightData = fileIO->loadJsonFile(path);
 }
 
 void ResourceManager::clear() {

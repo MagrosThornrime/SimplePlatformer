@@ -1,7 +1,7 @@
 #include "game.h"
 
 bool checkCollisions(GameMap* map, Player* player){
-    for(const Tile& object : map->tiles){
+    for(const Tile& object : map->blocks){
         if(GameObject::checkCollision(player, &object)){
             return true;
         }
@@ -26,9 +26,9 @@ void Game::loadPlayer(ResourceManager *resourceManager, const std::string &textu
     player = new Player(position, playerSize, texture, engine);
 }
 
-Game::Game(ResourceManager* resourceManager, glm::vec2 playerPosition, glm::vec2 playerSize)
+Game::Game(ResourceManager* resourceManager, SpriteRenderer* renderer, glm::vec2 playerPosition, glm::vec2 playerSize)
  : state(GAME_ACTIVE), map(GameMap(800, 600)) {
-    map.load(resourceManager);
+    map.load(resourceManager, renderer); //TODO flagged
     loadPlayer(resourceManager, "idle", playerPosition, playerSize);
 }
 

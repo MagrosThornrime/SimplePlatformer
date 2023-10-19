@@ -32,13 +32,14 @@ std::string shaderToString(ShaderType type){
     return shader;
 }
 
+
 void ShaderProgram::compileShader(unsigned int &shader, ShaderType type, const std::string& code) {
     const char* charCode = code.c_str();
     shader = glCreateShader(chooseShader(type));
     glShaderSource(shader, 1, &charCode, NULL);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &mSuccess);
-    if(!mSuccess) {
+    if(mSuccess != GL_TRUE) {
         glGetShaderInfoLog(shader, 512, NULL, mInfoLog);
         std::string message = shaderToString(type) + " shader compilation failed: " + std::string(mInfoLog);
         logger->log(message, LogLevel::error);
@@ -50,7 +51,7 @@ void ShaderProgram::linkProgram() {
     glAttachShader(ID, mFragment);
     glLinkProgram(ID);
     glGetProgramiv(ID, GL_LINK_STATUS, &mSuccess);
-    if(!mSuccess){
+    if(mSuccess != GL_TRUE){
         glGetProgramInfoLog(ID, 512, NULL, mInfoLog);
         std::string message = "shader program linking failed: " + std::string(mInfoLog);
         logger->log(message, LogLevel::error);

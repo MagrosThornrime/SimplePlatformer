@@ -7,6 +7,7 @@ class SpriteRenderer : public MoveObserver{
     Logger* logger;
     unsigned int VAO{}, width, height;
     ShaderProgram* shader;
+    int lights;
 
     void initRenderData();
 
@@ -14,12 +15,18 @@ class SpriteRenderer : public MoveObserver{
     [[nodiscard]] glm::mat4 getProjectionMatrix() const;
     [[nodiscard]] glm::mat4 getViewMatrix() const;
 
+    void setLight(glm::vec2 lightPosition, glm::vec3 ambientColor, float lightConstant,
+                  float lightLinear, float lightQuadratic, int index);
+
 public:
     glm::vec2 cameraPosition;
 
     SpriteRenderer(Logger* logger, ShaderProgram* shader, unsigned int width, unsigned int height);
 
     ~SpriteRenderer();
+
+    int addLight(glm::vec2 lightPosition, glm::vec3 ambientColor, float lightConstant, float lightLinear,
+                  float lightQuadratic);
 
     void drawSprite(Texture* texture,
                     glm::vec2 position,

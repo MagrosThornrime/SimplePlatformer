@@ -26,7 +26,7 @@ public:
     GameState state;
     GameMap map;
     Player* player;
-    Game(ResourceManager* resourceManager, glm::vec2 playerPosition, glm::vec2 playerSize);
+    Game(ResourceManager* resourceManager, SpriteRenderer* renderer, glm::vec2 playerPosition, glm::vec2 playerSize);
     ~Game();
     void update(const bool keys[1024], float deltaTime);
     void end();

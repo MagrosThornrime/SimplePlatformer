@@ -86,3 +86,23 @@ void SpriteRenderer::setCameraPosition(float x, float y) {
 void SpriteRenderer::moved(glm::vec2 newPosition) {
     setCameraPosition(newPosition.x, newPosition.y);
 }
+
+void SpriteRenderer::setLight(glm::vec2 lightPosition, glm::vec3 ambientColor, float lightConstant,
+                              float lightLinear, float lightQuadratic, int index){
+    shader->use();
+    std::string pointVariableName = "pointLights[" + std::to_string(lights) + "].";
+    shader->setVector2f(pointVariableName + "position", lightPosition);
+    shader->setVector3f(pointVariableName + "ambient", ambientColor);
+    shader->setFloat(pointVariableName + "constant", lightConstant);
+    shader->setFloat(pointVariableName + "linear", lightLinear);
+    shader->setFloat(pointVariableName + "quadratic", lightQuadratic);
+}
+
+int SpriteRenderer::addLight(glm::vec2 lightPosition, glm::vec3 ambientColor, float lightConstant,
+                              float lightLinear, float lightQuadratic) {
+    int index = lights;
+    setLight(lightPosition, ambientColor, lightConstant, lightLinear, lightQuadratic, index);
+    lights++;
+    shader->setInt("usedLights", lights);
+    return index;
+}

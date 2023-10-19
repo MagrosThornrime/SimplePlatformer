@@ -1,0 +1,38 @@
+[
+  {
+    "positionX": 300.0,
+    "positionY": 600.0,
+    "sizeX": 50.0,
+    "sizeY": 50.0,
+    "colorR": 1.0,
+    "colorG": 1.0,
+    "colorB": 1.0,
+    "lightPositionX": 300.0,
+    "lightPositionY": 600.0,
+    "ambientR": 1.0,
+    "ambientG": 1.0,
+    "ambientB": 0.6,
+    "quadratic": 0.0001,
+    "linear": 0.0,
+    "constant": 1.0,
+    "sprite": "lamp1"
+  },
+  {
+    "positionX": 1000.0,
+    "positionY": 800.0,
+    "sizeX": 50.0,
+    "sizeY": 50.0,
+    "colorR": 1.0,
+    "colorG": 1.0,
+    "colorB": 1.0,
+    "lightPositionX": 1000.0,
+    "lightPositionY": 800.0,
+    "ambientR": 1.0,
+    "ambientG": 0.2,
+    "ambientB": 0.2,
+    "quadratic": 0.0001,
+    "linear": 0.001,
+    "constant": 1.0,
+    "sprite": "lamp1"
+  }
+]

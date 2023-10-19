@@ -31,6 +31,8 @@ add_executable(SimplePlatformer main.cpp
         src/map/characters.h
         src/map/animation_engine.h
         src/map/animation_engine.cpp
+        src/map/light_source.h
+        src/map/light_source.cpp
 )
 
 

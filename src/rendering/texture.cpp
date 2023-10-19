@@ -9,7 +9,7 @@ void Texture::unbind() const {
 }
 
 void Texture::generate(const Image& image, TextureParameters textureParameters) {
-    const GLint internalFormat = GL_RGB;
+    const GLint internalFormat = GL_RGBA;
     bind();
     if(image.data) {
         glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image.width,

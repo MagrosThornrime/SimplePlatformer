@@ -28,6 +28,7 @@ class ResourceManager{
 
 public:
     Json::Value mapData;
+    Json::Value lightData;
 
     ResourceManager(Logger* logger, FileIO* fileIO) : logger(logger), fileIO(fileIO) {}
 
@@ -42,7 +43,8 @@ public:
     Texture* getTexture(const std::string& name);
 
     void loadMapData(const std::string& path);
+    void loadLightData(const std::string &path);
 
-    void clear();
+        void clear();
 
 };
